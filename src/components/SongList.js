@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/react-hooks";
 import {
   Card,
   CardActions,
@@ -10,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { PlayArrow, Save } from "@material-ui/icons";
 import React from "react";
+import { GET_SONGS } from "../graphql/queries";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,13 +34,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SongList() {
-  let loading = false;
+  const { data, loading, error } = useQuery(GET_SONGS);
+  // const loading = true;
+  // const error = false;
 
-  const song = {
-    title: "The Song Title",
-    artist: "The Song Artist",
-    thumbnail: "The Song Thumbnail",
-  };
+  // const song = {
+  //   title: "The Song Title",
+  //   artist: "The Song Artist",
+  //   thumbnail: "The Song Thumbnail",
+  // };
 
   if (loading) {
     return (
@@ -54,12 +58,18 @@ function SongList() {
       </div>
     );
   }
+  if (error) return <div>Error fetching songs: {error}</div>;
+
+  console.log("THE DATAZ: ", data);
+  console.log("Process: ", process.env);
+
   return (
-    <div>
-      {Array.from({ length: 10 }, () => song).map((song, i) => (
-        <Song key={i} song={song} />
-      ))}
-    </div>
+    <div>fantastic</div>
+    // <div>
+    //   {data.songs.map((song) => (
+    //     <Song key={song.id} song={song} />
+    //   ))}
+    // </div>
   );
 }
 
